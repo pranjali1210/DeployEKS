@@ -10,13 +10,12 @@ pipeline {
 
         stage('Build Images') {
             steps {
-                {
+                script {
                     sh 'docker build -t 500318249166.dkr.ecr.ap-south-1.amazonaws.com/frontend/web-app:app .'
                 }
-                
             }
         }
-// check info in ECR push commands
+
         stage('Push Images to ECR') {
             steps {
                 script {
@@ -26,18 +25,23 @@ pipeline {
             }
         }
 
-    	stage('Deploy to EKS') {
-        	steps {
-            	script {
-
-					withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubeconfig', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-    				// some block
-						}
-
-					sh "kubectl delete deployment frontend-deployment authservice-deployment admin-deployment event-deployment || true"
-                	sh "kubectl apply -f deployment.yaml"
-            	}
-        	}
-    	}
+        stage('Deploy to EKS') {
+            steps {
+                script {
+                    withKubeConfig(
+                        caCertificate: '',
+                        clusterName: '',
+                        contextName: '',
+                        credentialsId: 'kubeconfig',
+                        namespace: '',
+                        restrictKubeConfigAccess: false,
+                        serverUrl: ''
+                    ) {
+                        sh "kubectl delete deployment frontend-deployment authservice-deployment admin-deployment event-deployment || true"
+                        sh "kubectl apply -f deployment.yaml"
+                    }
+                }
+            }
+        }
     }
 }
