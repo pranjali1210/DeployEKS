@@ -19,3 +19,19 @@ spec:
           image: 500318249166.dkr.ecr.ap-south-1.amazonaws.com/frontend/web-app
           ports:
             - containerPort: 80
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service #The name of the Kubernetes Service to be created in the Kubernetes cluster
+spec:
+  selector:
+    app: react-app 
+  type: LoadBalancer #Type of the Kubernetes Service
+  ports:
+  - protocol: TCP
+    port: 3000 #Service port
+    targetPort: 3000 #The port for the React.js application container

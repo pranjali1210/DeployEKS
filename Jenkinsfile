@@ -11,7 +11,7 @@ pipeline {
         stage('Build Images') {
             steps {
                 script {
-                    sh 'docker build -t 500318249166.dkr.ecr.ap-south-1.amazonaws.com/frontend/web-app:app .'
+                    sh 'docker build -t 500318249166.dkr.ecr.us-east-1.amazonaws.com/currency-weather:app1 .'
                 }
             }
         }
@@ -19,8 +19,8 @@ pipeline {
         stage('Push Images to ECR') {
             steps {
                 script {
-                    sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 500318249166.dkr.ecr.ap-south-1.amazonaws.com'
-                    sh 'docker push 500318249166.dkr.ecr.ap-south-1.amazonaws.com/frontend/web-app:app'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 500318249166.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker push docker push 500318249166.dkr.ecr.us-east-1.amazonaws.com/currency-weather:app1'
                 }
             }
         }
