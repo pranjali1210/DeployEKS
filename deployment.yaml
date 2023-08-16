@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-web-app
+  name: currency-weather
   labels:
-    app: frontend-web-app
+    app: currency-weather
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: frontend-web-app
+      app: currency-weather
   template:
     metadata:
       labels:
-        app: frontend-web-app
+        app: currency-weather
     spec:
       containers:
-        - name: frontend-web-app
-          image: 500318249166.dkr.ecr.ap-south-1.amazonaws.com/frontend/web-app
+        - name: currency-weather
+          image: 500318249166.dkr.ecr.us-east-1.amazonaws.com/currency-weather
           ports:
             - containerPort: 80
 
@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service #The name of the Kubernetes Service to be created in the Kubernetes cluster
+  name: currency-weather-service #The name of the Kubernetes Service to be created in the Kubernetes cluster
 spec:
   selector:
-    app: react-app 
+    app: currency-weather
   type: LoadBalancer #Type of the Kubernetes Service
   ports:
   - protocol: TCP
